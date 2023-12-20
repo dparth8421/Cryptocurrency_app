@@ -1,28 +1,30 @@
-import "./App.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import React from "react";
+import { styled } from "@mui/system";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CoinPage from "./pages/CoinPage";
 import Home from "./pages/Home";
 import Header from "./components/Header";
 
-function App() {
-  const appRouter = createBrowserRouter([
-    {
-      path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/coins/:id",
-      element: <CoinPage />,
-    },
-  ]);
+const StyledAppContainer = styled("div")({
+  backgroundColor: "black",
+  color: "white",
+  minHeight: "100vh",
+});
+
+const App = () => {
   return (
-    <div className="App">
-      <div>
-        <Header />
-        <RouterProvider router={appRouter}></RouterProvider>
-      </div>
-    </div>
+    <BrowserRouter>
+      <StyledAppContainer>
+        <div>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/coins/:id" element={<CoinPage />} />
+          </Routes>
+        </div>
+      </StyledAppContainer>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
