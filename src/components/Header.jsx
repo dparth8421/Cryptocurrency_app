@@ -3,9 +3,12 @@ import {
   AppBar,
   Container,
   MenuItem,
+  OutlinedInput,
   Select,
+  ThemeProvider,
   Toolbar,
   Typography,
+  createTheme,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +23,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#fff",
+    },
+    type: "dark",
+  },
+});
+
 const Header = () => {
   const classes = useStyles();
   const navigate = useNavigate();
@@ -30,27 +42,29 @@ const Header = () => {
 
   return (
     <div>
-      <AppBar color="transparent" position="static">
-        <Container>
-          <Toolbar>
-            <Typography
-              onClick={handleTitleClick}
-              className={classes.title}
-              variant="h6"
-            >
-              Crypto Catcher
-            </Typography>
+      <ThemeProvider theme={theme}>
+        <AppBar color="transparent" position="static">
+          <Container>
+            <Toolbar>
+              <Typography
+                onClick={handleTitleClick}
+                className={classes.title}
+                variant="h6"
+              >
+                Crypto Catcher
+              </Typography>
 
-            <Select
-              value="outline"
-              style={{ width: 100, height: 40, marginLeft: 15 }}
-            >
-              <MenuItem value={"USD"}>INR</MenuItem>
-              <MenuItem value={"INR"}>USD</MenuItem>
-            </Select>
-          </Toolbar>
-        </Container>
-      </AppBar>
+              <Select
+                input={<OutlinedInput />}
+                style={{ width: 100, height: 40, marginRight: 15 }}
+              >
+                <MenuItem value={"USD"}>INR</MenuItem>
+                <MenuItem value={"INR"}>USD</MenuItem>
+              </Select>
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </ThemeProvider>
     </div>
   );
 };
