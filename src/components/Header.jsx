@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
+import { CryptoState } from "./CryptoContext";
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -36,6 +37,9 @@ const Header = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
+  const { currency, setCurrency } = CryptoState();
+  console.log(currency);
+
   const handleTitleClick = () => {
     navigate("/"); // Navigate to thcde home page
   };
@@ -57,9 +61,11 @@ const Header = () => {
               <Select
                 input={<OutlinedInput />}
                 style={{ width: 100, height: 40, marginRight: 15 }}
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
               >
-                <MenuItem value={"USD"}>INR</MenuItem>
-                <MenuItem value={"INR"}>USD</MenuItem>
+                <MenuItem value={"USD"}>USD</MenuItem>
+                <MenuItem value={"INR"}>INR</MenuItem>
               </Select>
             </Toolbar>
           </Container>
