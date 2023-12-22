@@ -3,59 +3,46 @@ import { useParams } from "react-router-dom";
 import { CryptoState } from "../components/CryptoContext";
 import axios from "axios";
 import { SingleCoin } from "../config/Apis";
-import { LinearProgress } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { styled } from "@mui/system";
+import { LinearProgress, Typography } from "@mui/material";
+import CoinDetails from "../components/CoinDetails";
+import ReactHtmlParser from "react-html-parser";
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    [theme.breakpoints.down("md")]: {
-      flexDirection: "column",
-      alignItems: "center",
-    },
-  },
-  sidebar: {
-    width: "30%",
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-    },
-    display: "flex",
+const Container = styled("div")(({ theme }) => ({
+  display: "flex",
+
+  [theme.breakpoints.down("md")]: {
     flexDirection: "column",
     alignItems: "center",
-    marginTop: 25,
-    borderRight: "2px solid grey",
-  },
-  heading: {
-    fontWeight: "bold",
-    marginBottom: 20,
-    fontFamily: "Montserrat",
-  },
-  description: {
-    width: "100%",
-    fontFamily: "Montserrat",
-    padding: 25,
-    paddingBottom: 15,
-    paddingTop: 0,
-    textAlign: "justify",
-  },
-  marketData: {
-    alignSelf: "start",
-    padding: 25,
-    paddingTop: 10,
-    width: "100%",
-    [theme.breakpoints.down("md")]: {
-      display: "flex",
-      justifyContent: "space-around",
-    },
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    [theme.breakpoints.down("xs")]: {
-      alignItems: "start",
-    },
   },
 }));
+
+const Sidebar = styled("div")(({ theme }) => ({
+  width: "30%",
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  marginTop: 25,
+  borderRight: "2px solid grey",
+}));
+
+const Heading = styled(Typography)({
+  fontWeight: "bold",
+  marginBottom: 2, // Adjust as needed
+  fontFamily: "Montserrat",
+});
+
+const Description = styled(Typography)({
+  width: "100%",
+  fontWeight: "bold",
+  padding: 25,
+  paddingBottom: 15,
+  paddingTop: 0,
+  textAlign: "justify",
+});
 
 const CoinPage = () => {
   const { id } = useParams();
@@ -65,7 +52,6 @@ const CoinPage = () => {
 
   const fetchSingleCoin = async () => {
     const { data } = await axios.get(SingleCoin(id));
-
     setCoin(data);
   };
 
@@ -75,14 +61,24 @@ const CoinPage = () => {
     fetchSingleCoin();
   }, []);
 
-  const classes = useStyles();
-
   if (!coin) return <LinearProgress style={{ backgroundColor: "gold" }} />;
 
   return (
-    <div className={classes.container}>
-      <div className={classes.sidebar}>sidebar</div>
-    </div>
+    <Container>
+      <Sidebar>
+        <img
+          src={coin?.image.large}
+          alt={coin?.name}
+          height="200"
+          style={{ marginBottom: 20 }}
+        />
+        <Heading variant="h3">{coin?.name}</Heading>
+        <Description variant="subtitle1">
+          {ReactHtmlParser(coin?.description.en.split(". ")[0])}
+        </Description>
+      </Sidebar>
+      <CoinDetails coin={coin} />
+    </Container>
   );
 };
 
