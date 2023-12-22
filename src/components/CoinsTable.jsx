@@ -52,12 +52,31 @@ const CoinsTable = () => {
   console.log(currency);
 
   console.log(coins);
-  const fetchCoins = async () => {
+  const fetchCoins = async (retryCount = 0) => {
     setLoading(true);
-    const { data } = await axios.get(CoinList(currency));
-
-    setCoins(data);
-    setLoading(false);
+    try {
+      const { data } = await axios.get(CoinList(currency));
+      setCoins(data);
+      setLoading(false);
+    } catch (error) {
+      if (error.response && error.response.status === 429) {
+        // Rate limit exceeded, implement backoff and retry logic
+        if (retryCount < 3) {
+          const delay = Math.pow(2, retryCount) * 1000; // Exponential backoff
+          console.log(
+            `Rate limit exceeded. Retrying after ${delay / 1000} seconds...`
+          );
+          setTimeout(() => fetchCoins(retryCount + 1), delay);
+        } else {
+          console.log("Max retry attempts reached. Unable to fetch data.");
+          setLoading(false);
+        }
+      } else {
+        // Handle other errors
+        console.error(error);
+        setLoading(false);
+      }
+    }
   };
 
   useEffect(() => {
@@ -65,10 +84,11 @@ const CoinsTable = () => {
   }, [currency]);
 
   const handleSearch = () => {
+    const searchText = search.toLowerCase();
     return coins.filter(
       (coin) =>
-        coin.name.toLowerCase().includes(search) ||
-        coin.symbol.toLowerCase().includes(search)
+        coin.name.toLowerCase().includes(searchText) ||
+        coin.symbol.toLowerCase().includes(searchText)
     );
   };
 
