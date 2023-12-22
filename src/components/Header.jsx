@@ -17,9 +17,7 @@ import { CryptoState } from "./CryptoContext";
 const useStyles = makeStyles(() => ({
   title: {
     flex: 1,
-    color: "gold",
-    fontFamily: "sans-serif",
-    fontWeight: "bolder",
+    fontWeight: "bold",
     cursor: "pointer",
   },
 }));
@@ -53,7 +51,7 @@ const Header = () => {
               <Typography
                 onClick={handleTitleClick}
                 className={classes.title}
-                variant="h6"
+                variant="h5"
               >
                 Crypto Catcher
               </Typography>

@@ -5,18 +5,17 @@ import Carousel from "./Carousel";
 
 const useStyles = makeStyles(() => ({
   banner: {
-    backgroundImage: "url(./banner1.jpg)",
+    backgroundImage: "url(./banner4.jpg)",
   },
   bannerContent: {
     height: 400,
     display: "flex",
     flexDirection: "column",
-    paddingTop: 25,
     justifyContent: "space-around",
   },
   tagline: {
     display: "flex",
-    height: "40%",
+    height: "30%",
     flexDirection: "column",
     justifyContent: "center",
     textAlign: "center",
@@ -34,7 +33,7 @@ const Banner = () => {
             variant="h2"
             style={{
               fontWeight: "bold",
-              marginBottom: 15,
+              marginBottom: 8,
             }}
           >
             Crypto Catcher

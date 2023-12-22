@@ -17,6 +17,7 @@ import {
   TableContainer,
   LinearProgress,
   TableCell,
+  Pagination,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { numberWithCommas } from "./Carousel";
@@ -62,7 +63,7 @@ const CoinsTable = () => {
       if (error.response && error.response.status === 429) {
         // Rate limit exceeded, implement backoff and retry logic
         if (retryCount < 3) {
-          const delay = Math.pow(2, retryCount) * 1000; // Exponential backoff
+          const delay = Math.pow(2, retryCount) * 1000;
           console.log(
             `Rate limit exceeded. Retrying after ${delay / 1000} seconds...`
           );
@@ -104,13 +105,13 @@ const CoinsTable = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <Container style={{ textAlign: "center" }}>
-        <Typography variant="h4" style={{ margin: 18 }}>
+        <Typography variant="h4" style={{ color: "gold", margin: 18 }}>
           Crypro Currency Price by Market Cap
         </Typography>
         <TextField
           label="Search For a Crypto Currency.."
           variant="outlined"
-          style={{ marginBottom: 20, width: "100%" }}
+          style={{ marginBottom: 20, width: "100%", color: "white" }}
           onChange={(e) => setSearch(e.target.value)}
         />
         <TableContainer component={Paper}>
@@ -153,6 +154,7 @@ const CoinsTable = () => {
                           style={{
                             display: "flex",
                             gap: 15,
+                            color: "white",
                           }}
                         >
                           <img
@@ -205,6 +207,20 @@ const CoinsTable = () => {
             </Table>
           )}
         </TableContainer>
+        <Pagination
+          count={(handleSearch()?.length / 10).toFixed(0)}
+          style={{
+            padding: 20,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          classes={{ ul: classes.pagination }}
+          onChange={(_, value) => {
+            setPage(value);
+            window.scroll(0, 450);
+          }}
+        />
       </Container>
     </ThemeProvider>
   );
