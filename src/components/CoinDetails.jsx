@@ -4,11 +4,13 @@ import { HistoricalChart } from "../config/Apis";
 
 import { CircularProgress, ThemeProvider, createTheme } from "@mui/material";
 import { Line } from "react-chartjs-2";
-
 import { chartDays } from "../config/Data";
 import SelectButton from "./SelectButton";
 import styled from "@emotion/styled";
 import axios from "axios";
+import { Chart, registerables } from "chart.js";
+
+Chart.register(...registerables);
 
 const Container = styled("div")(({ theme }) => ({
   width: "75%",
@@ -26,6 +28,14 @@ const Container = styled("div")(({ theme }) => ({
   },
 }));
 
+const darkTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#fff",
+    },
+    mode: "dark",
+  },
+});
 const CoinDetails = ({ coin }) => {
   const [historicalData, setHistoricalData] = useState();
   const [days, setDays] = useState(1);
@@ -37,21 +47,12 @@ const CoinDetails = ({ coin }) => {
     const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
     setHistoricalData(data.prices);
     setflag(true);
-    console.log(historicalData);
   };
+  console.log(historicalData);
 
   useEffect(() => {
     fetchHistoricData();
   }, [currency, days]);
-
-  const darkTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#fff",
-      },
-      mode: "dark",
-    },
-  });
 
   return (
     <ThemeProvider theme={darkTheme}>

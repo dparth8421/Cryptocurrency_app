@@ -50,9 +50,9 @@ const CoinsTable = () => {
   const classes = useStyles();
 
   const { currency, symbol } = CryptoState;
-  console.log(currency);
+  // console.log(currency);
 
-  console.log(coins);
+  // console.log(coins);
   const fetchCoins = async (retryCount = 0) => {
     setLoading(true);
     try {
@@ -112,6 +112,7 @@ const CoinsTable = () => {
           label="Search For a Crypto Currency.."
           variant="outlined"
           style={{ marginBottom: 20, width: "100%", color: "white" }}
+          inputProps={{ style: { color: "white" } }}
           onChange={(e) => setSearch(e.target.value)}
         />
         <TableContainer component={Paper}>
@@ -125,8 +126,7 @@ const CoinsTable = () => {
                     <TableCell
                       style={{
                         color: "black",
-                        fontWeight: "700",
-                        fontFamily: "Montserrat",
+                        fontWeight: "bold",
                       }}
                       key={head}
                       align={head === "Coin" ? "" : "right"}
@@ -179,7 +179,7 @@ const CoinsTable = () => {
                             </span>
                           </div>
                         </TableCell>
-                        <TableCell align="right">
+                        <TableCell align="right" style={{ color: "white" }}>
                           {symbol}{" "}
                           {numberWithCommas(row.current_price.toFixed(2))}
                         </TableCell>
@@ -193,7 +193,7 @@ const CoinsTable = () => {
                           {profit && "+"}
                           {row.price_change_percentage_24h.toFixed(2)}%
                         </TableCell>
-                        <TableCell align="right">
+                        <TableCell align="right" style={{ color: "white" }}>
                           {symbol}{" "}
                           {numberWithCommas(
                             row.market_cap.toString().slice(0, -6)
