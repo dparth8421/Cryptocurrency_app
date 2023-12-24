@@ -22,7 +22,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { numberWithCommas } from "./Carousel";
 import { makeStyles } from "@mui/styles";
-import { DummCoinData, DummyCoinData } from "./DummyCoinData";
+import { DummyCoinData } from "./DummyCoinData";
 
 const useStyles = makeStyles(() => ({
   row: {
@@ -98,7 +98,7 @@ const CoinsTable = () => {
     <ThemeProvider theme={darkTheme}>
       <Container style={{ textAlign: "center" }}>
         <Typography variant="h4" style={{ color: "gold", margin: 18 }}>
-          Crypro Currency Price by Market Cap
+          Crypto Currency Price by Market Cap
         </Typography>
         <TextField
           label="Search For a Crypto Currency.."

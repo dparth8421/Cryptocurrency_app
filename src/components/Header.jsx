@@ -3,7 +3,6 @@ import {
   AppBar,
   Container,
   MenuItem,
-  OutlinedInput,
   Select,
   ThemeProvider,
   Toolbar,
@@ -17,8 +16,9 @@ import { CryptoState } from "./CryptoContext";
 const useStyles = makeStyles(() => ({
   title: {
     flex: 1,
-    fontWeight: "bold",
+    fontWeight: "bolder",
     cursor: "pointer",
+    color: "gold",
   },
 }));
 
@@ -51,9 +51,9 @@ const Header = () => {
               <Typography
                 onClick={handleTitleClick}
                 className={classes.title}
-                variant="h5"
+                variant="h4"
               >
-                Crypto Catcher
+                CRYPTO CATCHER
               </Typography>
 
               <Select
