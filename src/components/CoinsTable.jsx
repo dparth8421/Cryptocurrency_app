@@ -22,6 +22,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { numberWithCommas } from "./Carousel";
 import { makeStyles } from "@mui/styles";
+import { DummCoinData, DummyCoinData } from "./DummyCoinData";
 
 const useStyles = makeStyles(() => ({
   row: {
@@ -41,9 +42,10 @@ const useStyles = makeStyles(() => ({
 
 const CoinsTable = () => {
   const [coins, setCoins] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -52,31 +54,21 @@ const CoinsTable = () => {
   const { currency, symbol } = CryptoState;
   // console.log(currency);
 
-  // console.log(coins);
-  const fetchCoins = async (retryCount = 0) => {
+  console.log(coins);
+  const fetchCoins = async () => {
     setLoading(true);
+
     try {
       const { data } = await axios.get(CoinList(currency));
+      console.log(data);
       setCoins(data);
       setLoading(false);
     } catch (error) {
-      if (error.response && error.response.status === 429) {
-        // Rate limit exceeded, implement backoff and retry logic
-        if (retryCount < 3) {
-          const delay = Math.pow(2, retryCount) * 1000;
-          console.log(
-            `Rate limit exceeded. Retrying after ${delay / 1000} seconds...`
-          );
-          setTimeout(() => fetchCoins(retryCount + 1), delay);
-        } else {
-          console.log("Max retry attempts reached. Unable to fetch data.");
-          setLoading(false);
-        }
-      } else {
-        // Handle other errors
-        console.error(error);
-        setLoading(false);
-      }
+      setCoins(DummyCoinData); // Set dummy data in case of an error
+      setLoading(false);
+      console.error("Error fetching coins:", error);
+
+      // setError("Error fetching data. Please try again.");
     }
   };
 
